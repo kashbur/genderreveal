@@ -111,6 +111,7 @@
       .reel-item {
         height: 100%;
       }
+      /*
       #reel1 {
         left: 20.4%;
         top: 16.5%;
@@ -165,6 +166,7 @@
         width: 19.2%;
         height: 14.4%;
       }
+      */
       .reel img {
         width: 85%;
         height: 85%;
@@ -542,18 +544,20 @@
         return overlays[color] || overlays.beige;
       }
 
-      document.addEventListener("DOMContentLoaded", function () {
-        const slotData = [
-          { row: 1, col: 1, xPct: 20.4, yPct: 16.5, wPct: 19.2, hPct: 14.4 },
-          { row: 1, col: 2, xPct: 42.7, yPct: 16.5, wPct: 19.2, hPct: 14.4 },
-          { row: 1, col: 3, xPct: 65.1, yPct: 16.5, wPct: 19.2, hPct: 14.4 },
-          { row: 2, col: 1, xPct: 20.4, yPct: 33.9, wPct: 19.2, hPct: 14.4 },
-          { row: 2, col: 2, xPct: 42.7, yPct: 33.9, wPct: 19.2, hPct: 14.4 },
-          { row: 2, col: 3, xPct: 65.1, yPct: 33.9, wPct: 19.2, hPct: 14.4 },
-          { row: 3, col: 1, xPct: 20.4, yPct: 51.3, wPct: 19.2, hPct: 14.4 },
-          { row: 3, col: 2, xPct: 42.7, yPct: 51.3, wPct: 19.2, hPct: 14.4 },
-          { row: 3, col: 3, xPct: 65.1, yPct: 51.3, wPct: 19.2, hPct: 14.4 },
-        ];
+        document.addEventListener("DOMContentLoaded", function () {
+          const slotData = [
+            { row: 1, col: 1, xPct: 20.00, yPct: 42.69, wPct: 18.70, hPct: 8.26 },
+            { row: 1, col: 2, xPct: 41.43, yPct: 42.86, wPct: 18.70, hPct: 8.07 },
+            { row: 1, col: 3, xPct: 63.52, yPct: 42.86, wPct: 16.44, hPct: 8.07 },
+
+            { row: 2, col: 1, xPct: 19.58, yPct: 51.83, wPct: 17.69, hPct: 6.66 },
+            { row: 2, col: 2, xPct: 41.15, yPct: 51.83, wPct: 19.20, hPct: 6.66 },
+            { row: 2, col: 3, xPct: 63.50, yPct: 51.83, wPct: 17.94, hPct: 6.66 },
+
+            { row: 3, col: 1, xPct: 21.56, yPct: 59.60, wPct: 16.69, hPct: 7.08 },
+            { row: 3, col: 2, xPct: 41.65, yPct: 59.60, wPct: 17.94, hPct: 7.08 },
+            { row: 3, col: 3, xPct: 63.25, yPct: 59.46, wPct: 16.69, hPct: 7.08 },
+          ];
 
         const icons = ["img/blue%20heart.png", "img/pink%20heart.png"];
 
