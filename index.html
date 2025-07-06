@@ -20,6 +20,7 @@
         --font-sub: var(--font-family);
         --font-date: var(--font-family);
         --font-from: var(--font-family);
+        --icon-size: 60px;
       }
       html,
       body {
@@ -86,13 +87,15 @@
         overflow: hidden;
       }
       .reel-inner {
+        position: relative;
         width: 100%;
         height: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
-        transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);      }
+        transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+      }
       @keyframes slot-spin-down {
         0% {
           transform: translateY(-20%);
@@ -110,6 +113,8 @@
       }
       .reel-item {
         height: 100%;
+        width: 100%;
+        position: relative;
       }
       /*
       #reel1 {
@@ -167,18 +172,21 @@
         height: 14.4%;
       }
       */
-      .reel img {
-        width: 85%;
-        height: 85%;
+      .slot-icon {
+        width: var(--icon-size);
+        height: var(--icon-size);
         object-fit: contain;
-        display: block;
-        margin: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         background: transparent;
+        display: block;
         transition: transform 0.05s;
+        transform-origin: 50% 50%;
         box-shadow: none;
         backface-visibility: hidden;
         transform-style: preserve-3d;
-        transform-origin: 50% 50%;
       }
       .spin-button {
         position: absolute;
@@ -369,47 +377,47 @@
         <div class="slot-machine blur-background" id="slotMachine"></div>
         <div id="reel1" class="reel blur-background">
           <div class="reel-inner">
-            <img src="img/blue heart.png" alt="Blue Heart" />
+            <img class="slot-icon" src="img/blue heart.png" alt="Blue Heart" />
           </div>
         </div>
         <div id="reel2" class="reel blur-background">
           <div class="reel-inner">
-            <img src="img/pink heart.png" alt="Pink Heart" />
+            <img class="slot-icon" src="img/pink heart.png" alt="Pink Heart" />
           </div>
         </div>
         <div id="reel3" class="reel blur-background">
           <div class="reel-inner">
-            <img src="img/blue heart.png" alt="Blue Heart" />
+            <img class="slot-icon" src="img/blue heart.png" alt="Blue Heart" />
           </div>
         </div>
         <div id="reel4" class="reel blur-background">
           <div class="reel-inner">
-            <img src="img/pink heart.png" alt="Pink Heart" />
+            <img class="slot-icon" src="img/pink heart.png" alt="Pink Heart" />
           </div>
         </div>
         <div id="reel5" class="reel blur-background">
           <div class="reel-inner">
-            <img src="img/blue heart.png" alt="Blue Heart" />
+            <img class="slot-icon" src="img/blue heart.png" alt="Blue Heart" />
           </div>
         </div>
         <div id="reel6" class="reel blur-background">
           <div class="reel-inner">
-            <img src="img/pink heart.png" alt="Pink Heart" />
+            <img class="slot-icon" src="img/pink heart.png" alt="Pink Heart" />
           </div>
         </div>
         <div id="reel7" class="reel blur-background">
           <div class="reel-inner">
-            <img src="img/blue heart.png" alt="Blue Heart" />
+            <img class="slot-icon" src="img/blue heart.png" alt="Blue Heart" />
           </div>
         </div>
         <div id="reel8" class="reel blur-background">
           <div class="reel-inner">
-            <img src="img/pink heart.png" alt="Pink Heart" />
+            <img class="slot-icon" src="img/pink heart.png" alt="Pink Heart" />
           </div>
         </div>
         <div id="reel9" class="reel blur-background">
           <div class="reel-inner">
-            <img src="img/blue heart.png" alt="Blue Heart" />
+            <img class="slot-icon" src="img/blue heart.png" alt="Blue Heart" />
           </div>
         </div>
         <div class="spin-button blur-background" id="spinButton">
@@ -561,6 +569,14 @@
 
         const icons = ["img/blue%20heart.png", "img/pink%20heart.png"];
 
+        const container = document.querySelector(".slot-machine-container");
+        const minHeightPct = Math.min(...slotData.map((s) => s.hPct));
+        const iconSize = (container.clientHeight * minHeightPct * 0.85) / 100;
+        document.documentElement.style.setProperty(
+          "--icon-size",
+          `${iconSize}px`,
+        );
+
         slotData.forEach((slot) => {
           const div = document.createElement("div");
           div.style.position = "absolute";
@@ -570,8 +586,7 @@
           div.style.height = slot.hPct + "%";
           const img = document.createElement("img");
           img.src = icons[Math.floor(Math.random() * icons.length)];
-          img.style.width = "100%";
-          img.style.height = "100%";
+          img.className = "slot-icon";
           div.appendChild(img);
           document.querySelector(".slot-machine-container").appendChild(div);
         });
@@ -581,7 +596,7 @@
         }
 
         function createSingleIcon(reel, icon) {
-          reel.innerHTML = `<div class="reel-inner"><img src="${icon}" alt="Slot Icon"></div>`;
+          reel.innerHTML = `<div class="reel-inner"><img class="slot-icon" src="${icon}" alt="Slot Icon" /></div>`;
         }
 
         function createReelStrip(reel) {
@@ -594,6 +609,7 @@
             const img = document.createElement("img");
             img.src = getRandomIcon();
             img.alt = "Slot Icon";
+            img.className = "slot-icon";
             item.appendChild(img);
             strip.appendChild(item);
           }
