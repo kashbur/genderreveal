@@ -543,22 +543,34 @@
       }
 
       document.addEventListener("DOMContentLoaded", function () {
-        const icons = [
-          "img/blue heart.png",
-          "img/pink heart.png",
+        const slotData = [
+          { row: 1, col: 1, xPct: 20.4, yPct: 16.5, wPct: 19.2, hPct: 14.4 },
+          { row: 1, col: 2, xPct: 42.7, yPct: 16.5, wPct: 19.2, hPct: 14.4 },
+          { row: 1, col: 3, xPct: 65.1, yPct: 16.5, wPct: 19.2, hPct: 14.4 },
+          { row: 2, col: 1, xPct: 20.4, yPct: 33.9, wPct: 19.2, hPct: 14.4 },
+          { row: 2, col: 2, xPct: 42.7, yPct: 33.9, wPct: 19.2, hPct: 14.4 },
+          { row: 2, col: 3, xPct: 65.1, yPct: 33.9, wPct: 19.2, hPct: 14.4 },
+          { row: 3, col: 1, xPct: 20.4, yPct: 51.3, wPct: 19.2, hPct: 14.4 },
+          { row: 3, col: 2, xPct: 42.7, yPct: 51.3, wPct: 19.2, hPct: 14.4 },
+          { row: 3, col: 3, xPct: 65.1, yPct: 51.3, wPct: 19.2, hPct: 14.4 },
         ];
 
-        const slotData = [
-          { x: 20.4, y: 16.5, w: 19.2, h: 14.4 },
-          { x: 42.7, y: 16.5, w: 19.2, h: 14.4 },
-          { x: 65.1, y: 16.5, w: 19.2, h: 14.4 },
-          { x: 20.4, y: 33.9, w: 19.2, h: 14.4 },
-          { x: 42.7, y: 33.9, w: 19.2, h: 14.4 },
-          { x: 65.1, y: 33.9, w: 19.2, h: 14.4 },
-          { x: 20.4, y: 51.3, w: 19.2, h: 14.4 },
-          { x: 42.7, y: 51.3, w: 19.2, h: 14.4 },
-          { x: 65.1, y: 51.3, w: 19.2, h: 14.4 },
-        ];
+        const icons = ["img/blue%20heart.png", "img/pink%20heart.png"];
+
+        slotData.forEach((slot) => {
+          const div = document.createElement("div");
+          div.style.position = "absolute";
+          div.style.left = slot.xPct + "%";
+          div.style.top = slot.yPct + "%";
+          div.style.width = slot.wPct + "%";
+          div.style.height = slot.hPct + "%";
+          const img = document.createElement("img");
+          img.src = icons[Math.floor(Math.random() * icons.length)];
+          img.style.width = "100%";
+          img.style.height = "100%";
+          div.appendChild(img);
+          document.querySelector(".slot-machine-container").appendChild(div);
+        });
 
         function getRandomIcon() {
           return icons[Math.floor(Math.random() * icons.length)];
@@ -595,10 +607,10 @@
         slotData.forEach((slot, i) => {
           const reel = reels[i];
           if (reel) {
-            reel.style.left = `${slot.x}%`;
-            reel.style.top = `${slot.y}%`;
-            reel.style.width = `${slot.w}%`;
-            reel.style.height = `${slot.h}%`;
+            reel.style.left = `${slot.xPct}%`;
+            reel.style.top = `${slot.yPct}%`;
+            reel.style.width = `${slot.wPct}%`;
+            reel.style.height = `${slot.hPct}%`;
           }
         });
         const introOverlay = document.getElementById("introOverlay");
