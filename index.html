@@ -59,7 +59,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        background-image: url("img/background.png");
+        background-image: url("img/genderrevealbackground.png");
         background-size: 100% 100%;
         background-position: center;
         background-repeat: no-repeat;
@@ -501,13 +501,6 @@
 
       document.addEventListener("DOMContentLoaded", function () {
         const icons = [
-          "img/ring.png",
-          "img/graduation cap.png",
-          "img/briefcase.png",
-          "img/house.png",
-          "img/scroll.png",
-          "img/baby-bottle.png",
-          "img/box.png",
           "img/blue heart.png",
           "img/pink heart.png",
         ];
@@ -522,6 +515,9 @@
           { x: 20.4, y: 51.3, w: 19.2, h: 14.4 },
           { x: 42.7, y: 51.3, w: 19.2, h: 14.4 },
           { x: 65.1, y: 51.3, w: 19.2, h: 14.4 },
+=======
+          "img/blue heart.png",
+          "img/pink heart.png",
         ];
 
         function getRandomIcon() {
@@ -678,13 +674,13 @@
           const spinDuration = 900;
           const delays = reels.map((_, i) => i * 300);
           if (spinCount === 4) {
-            const babyBottle = icons[5];
-            reels.forEach((reel, i) => {
-              const cb =
-                i === reels.length - 1 ? () => setTimeout(showReveal, 500) : null;
-              spinReel(reel, delays[i], spinDuration, babyBottle, cb);
-            });
-            currentSymbols = Array(reels.length).fill(babyBottle);
+const babyBottle = icons[5];
+reels.forEach((reel, i) => {
+  const cb = i === reels.length - 1 ? () => setTimeout(showReveal, 500) : null;
+  spinReel(reel, delays[i], spinDuration, babyBottle, cb);
+});
+currentSymbols = Array(reels.length).fill(babyBottle);
+
           } else {
             generateRandomNonMatchingSymbols();
             reels.forEach((reel, i) => {
@@ -698,12 +694,9 @@
           }, pointerDelay);
         }
         function generateRandomNonMatchingSymbols() {
-          const idx = [];
-          while (idx.length < reels.length) {
-            const r = Math.floor(Math.random() * icons.length);
-            if (!idx.includes(r)) idx.push(r);
-          }
-          currentSymbols = idx.map((i) => icons[i]);
+currentSymbols = Array.from({ length: reels.length }, () =>
+  icons[Math.floor(Math.random() * icons.length)]
+);
         }
         function spinReel(reel, delay, duration, finalIcon, callback) {
           setTimeout(() => {
@@ -973,3 +966,4 @@
     </script>
   </body>
 </html>
+
