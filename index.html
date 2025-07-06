@@ -431,13 +431,8 @@
 
       document.addEventListener("DOMContentLoaded", function () {
         const icons = [
-          "img/ring.png",
-          "img/graduation cap.png",
-          "img/briefcase.png",
-          "img/house.png",
-          "img/scroll.png",
-          "img/baby-bottle.png",
-          "img/box.png",
+          "img/blue heart.png",
+          "img/pink heart.png",
         ];
 
         function getRandomIcon() {
@@ -466,7 +461,7 @@
         }
 
         let spinCount = 0;
-        let currentSymbols = [icons[0], icons[1], icons[2]];
+        let currentSymbols = [icons[0], icons[1], icons[0]];
         const slotMachine = document.getElementById("slotMachine");
         const spinButton = document.getElementById("spinButton");
         const reel1 = document.getElementById("reel1");
@@ -591,17 +586,17 @@
             reel3Delay = 1200,
             spinDuration = 900;
           if (spinCount === 4) {
-            const babyBottle = icons[5];
-            spinReel(reel1, reel1Delay, spinDuration, babyBottle);
-            spinReel(reel2, reel2Delay, spinDuration, babyBottle);
+            const finalIcon = icons[1];
+            spinReel(reel1, reel1Delay, spinDuration, finalIcon);
+            spinReel(reel2, reel2Delay, spinDuration, finalIcon);
             spinReel(
               reel3,
               reel3Delay,
               spinDuration,
-              babyBottle,
+              finalIcon,
               () => setTimeout(showReveal, 500),
             );
-            currentSymbols = [babyBottle, babyBottle, babyBottle];
+            currentSymbols = [finalIcon, finalIcon, finalIcon];
           } else {
             generateRandomNonMatchingSymbols();
             spinReel(reel1, reel1Delay, spinDuration, currentSymbols[0]);
@@ -615,12 +610,12 @@
           }, pointerDelay);
         }
         function generateRandomNonMatchingSymbols() {
-          let idx = [];
-          while (idx.length < 3) {
-            let r = Math.floor(Math.random() * icons.length);
-            if (!idx.includes(r)) idx.push(r);
-          }
-          currentSymbols = [icons[idx[0]], icons[idx[1]], icons[idx[2]]];
+          do {
+            currentSymbols = [getRandomIcon(), getRandomIcon(), getRandomIcon()];
+          } while (
+            currentSymbols[0] === currentSymbols[1] &&
+            currentSymbols[1] === currentSymbols[2]
+          );
         }
         function spinReel(reel, delay, duration, finalIcon, callback) {
           setTimeout(() => {
