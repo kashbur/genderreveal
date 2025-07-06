@@ -463,6 +463,21 @@
         return test.color ? value : fallback;
       }
 
+      function parseBool(value) {
+        if (value === undefined) return undefined;
+        return /^(1|true|yes)$/i.test(value.trim());
+      }
+
+      function getLineStyleFromParams(params, prefix) {
+        return {
+          textColor: params[`${prefix}textcolor`],
+          outlineColor: params[`${prefix}outlinecolor`],
+          bold: parseBool(params[`${prefix}bold`]),
+          italic: parseBool(params[`${prefix}italic`]),
+          caps: parseBool(params[`${prefix}caps`]),
+        };
+      }
+
       function getRevealLinesFromParams(params) {
         // Defaults
         const lines = [];
@@ -475,11 +490,32 @@
         const sub = params.sub || "";
         const date = params.date || "";
         const from = params.from || "";
-        if (main) lines.push({ type: "main", content: main });
-        if (sub) lines.push({ type: "sub", content: sub });
-        if (date) lines.push({ type: "date", content: date });
-        if (photo) lines.push({ type: "photo", content: photo });
-        if (from) lines.push({ type: "from", content: from });
+        if (main)
+          lines.push({
+            type: "main",
+            content: main,
+            style: getLineStyleFromParams(params, "main"),
+          });
+        if (sub)
+          lines.push({
+            type: "sub",
+            content: sub,
+            style: getLineStyleFromParams(params, "sub"),
+          });
+        if (date)
+          lines.push({
+            type: "date",
+            content: date,
+            style: getLineStyleFromParams(params, "date"),
+          });
+        if (photo)
+          lines.push({ type: "photo", content: photo });
+        if (from)
+          lines.push({
+            type: "from",
+            content: from,
+            style: getLineStyleFromParams(params, "from"),
+          });
         return lines;
       }
       function getColorOverlay(params) {
@@ -803,6 +839,7 @@ currentSymbols = Array.from({ length: reels.length }, () =>
             function addLine(line) {
               const div = document.createElement("div");
               div.className = "reveal-line " + line.type;
+              const style = line.style || {};
               if (line.type === "photo") {
                 const img = document.createElement("img");
                 img.src = line.content;
@@ -813,10 +850,24 @@ currentSymbols = Array.from({ length: reels.length }, () =>
                 img.className = "reveal-photo";
                 div.appendChild(img);
               } else {
-                div.textContent =
-                  line.type === "sub" ? line.content.toUpperCase() : line.content;
+                let txt = line.content;
+                if (style.caps !== undefined) {
+                  txt = style.caps ? txt.toUpperCase() : txt;
+                  div.style.textTransform = style.caps ? "uppercase" : "none";
+                } else if (line.type === "sub") {
+                  txt = txt.toUpperCase();
+                }
+                div.textContent = txt;
               }
-              applyTextStyles(div, safeTextColor, safeOutlineColor);
+              const tColor = sanitizeColor(style.textColor, safeTextColor);
+              const oColor = sanitizeColor(style.outlineColor, safeOutlineColor);
+              applyTextStyles(div, tColor, oColor);
+              if (style.bold !== undefined) {
+                div.style.fontWeight = style.bold ? "bold" : "normal";
+              }
+              if (style.italic !== undefined) {
+                div.style.fontStyle = style.italic ? "italic" : "normal";
+              }
               div.style.margin = "0";
               revealLinesDiv.appendChild(div);
               fitRevealLine(div, line.type);
@@ -849,8 +900,20 @@ currentSymbols = Array.from({ length: reels.length }, () =>
             introLinesDiv.innerHTML = "";
             const div = document.createElement("div");
             div.className = "reveal-line main";
-            div.textContent = mainLine.content;
-            applyTextStyles(div, safeTextColor, safeOutlineColor);
+            const mStyle = mainLine.style || {};
+            let txt = mainLine.content;
+            if (mStyle.caps !== undefined) {
+              txt = mStyle.caps ? txt.toUpperCase() : txt;
+              div.style.textTransform = mStyle.caps ? "uppercase" : "none";
+            }
+            div.textContent = txt;
+            const tColor = sanitizeColor(mStyle.textColor, safeTextColor);
+            const oColor = sanitizeColor(mStyle.outlineColor, safeOutlineColor);
+            applyTextStyles(div, tColor, oColor);
+            if (mStyle.bold !== undefined)
+              div.style.fontWeight = mStyle.bold ? "bold" : "normal";
+            if (mStyle.italic !== undefined)
+              div.style.fontStyle = mStyle.italic ? "italic" : "normal";
             introLinesDiv.appendChild(div);
             fitRevealLine(div, "main");
             introOverlay.style.opacity = "1";
