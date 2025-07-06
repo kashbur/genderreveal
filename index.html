@@ -550,7 +550,9 @@
         }
 
         let spinCount = 0;
-        let currentSymbols = icons.slice(0, slotData.length);
+        let currentSymbols = Array.from({ length: slotData.length }, () =>
+          getRandomIcon()
+        );
         const slotMachine = document.getElementById("slotMachine");
         const spinButton = document.getElementById("spinButton");
         const reels = slotData.map((_, i) => document.getElementById(`reel${i + 1}`));
@@ -717,12 +719,13 @@
           const spinDuration = 900;
           const delays = reels.map((_, i) => i * 300);
           if (spinCount === 4) {
-const babyBottle = icons[5];
-reels.forEach((reel, i) => {
-  const cb = i === reels.length - 1 ? () => setTimeout(showReveal, 500) : null;
-  spinReel(reel, delays[i], spinDuration, babyBottle, cb);
-});
-currentSymbols = Array(reels.length).fill(babyBottle);
+            const pinkHeart = icons[1];
+            reels.forEach((reel, i) => {
+              const cb =
+                i === reels.length - 1 ? () => setTimeout(showReveal, 500) : null;
+              spinReel(reel, delays[i], spinDuration, pinkHeart, cb);
+            });
+            currentSymbols = Array(reels.length).fill(pinkHeart);
 
           } else {
             generateRandomNonMatchingSymbols();
@@ -737,9 +740,11 @@ currentSymbols = Array(reels.length).fill(babyBottle);
           }, pointerDelay);
         }
         function generateRandomNonMatchingSymbols() {
-currentSymbols = Array.from({ length: reels.length }, () =>
-  icons[Math.floor(Math.random() * icons.length)]
-);
+          do {
+            currentSymbols = Array.from({ length: reels.length }, () =>
+              getRandomIcon()
+            );
+          } while (currentSymbols.every((s) => s === currentSymbols[0]));
         }
         function spinReel(reel, delay, duration, finalIcon, callback) {
           setTimeout(() => {
