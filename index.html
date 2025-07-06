@@ -16,6 +16,10 @@
     <style>
       :root {
         --font-family: 'Poppins';
+        --font-main: var(--font-family);
+        --font-sub: var(--font-family);
+        --font-date: var(--font-family);
+        --font-from: var(--font-family);
       }
       html,
       body {
@@ -259,7 +263,6 @@
         white-space: normal;
         overflow-wrap: normal;
         text-wrap: balance;
-        font-family: var(--font-family), sans-serif;
         color: #fff;
         margin: 0;
         line-height: 1.15;
@@ -274,19 +277,23 @@
         line-height: 1.1;
         font-weight: 900;
         text-transform: uppercase;
+        font-family: var(--font-main), sans-serif;
       }
       .reveal-line.sub {
         font-weight: 700;
         text-transform: uppercase;
+        font-family: var(--font-sub), sans-serif;
       }
       .reveal-line.date {
         font-weight: 700;
+        font-family: var(--font-date), sans-serif;
       }
       .reveal-line.from {
         font-weight: 700;
         font-style: italic;
         margin-top: 0;
         color: #fff;
+        font-family: var(--font-from), sans-serif;
       }
       @media (max-width: 500px) {
         .aspect-container {
@@ -571,15 +578,54 @@
         const audioContext = new (window.AudioContext ||
           window.webkitAudioContext)();
 
-        // Apply custom font
-        if (params.font) {
-          const fontName = params.font.replace(/\+/g, " ");
+        // Apply custom fonts
+        const loadedFonts = new Set();
+        function loadFont(param) {
+          if (!param || loadedFonts.has(param)) return;
           const link = document.createElement("link");
-          link.href = `https://fonts.googleapis.com/css2?family=${params.font}&display=swap`;
+          link.href = `https://fonts.googleapis.com/css2?family=${param}&display=swap`;
           link.rel = "stylesheet";
           document.head.appendChild(link);
+          loadedFonts.add(param);
+        }
+
+        if (params.font) {
+          const fontName = params.font.replace(/\+/g, " ");
+          loadFont(params.font);
           document.documentElement.style.setProperty(
             "--font-family",
+            `'${fontName}'`,
+          );
+        }
+        if (params.fontmain) {
+          const fontName = params.fontmain.replace(/\+/g, " ");
+          loadFont(params.fontmain);
+          document.documentElement.style.setProperty(
+            "--font-main",
+            `'${fontName}'`,
+          );
+        }
+        if (params.fontsub) {
+          const fontName = params.fontsub.replace(/\+/g, " ");
+          loadFont(params.fontsub);
+          document.documentElement.style.setProperty(
+            "--font-sub",
+            `'${fontName}'`,
+          );
+        }
+        if (params.fontdate) {
+          const fontName = params.fontdate.replace(/\+/g, " ");
+          loadFont(params.fontdate);
+          document.documentElement.style.setProperty(
+            "--font-date",
+            `'${fontName}'`,
+          );
+        }
+        if (params.fontfrom) {
+          const fontName = params.fontfrom.replace(/\+/g, " ");
+          loadFont(params.fontfrom);
+          document.documentElement.style.setProperty(
+            "--font-from",
             `'${fontName}'`,
           );
         }

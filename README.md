@@ -25,6 +25,7 @@ xdg-open index.html        # Linux
 - `textColor` – color for the message text (any valid CSS color value)
 - `outlineColor` – color for the outline around the message text
 - `font` – Google Fonts family name to use for all text (e.g. `font=Playfair+Display`)
+- `fontMain`, `fontSub`, `fontDate`, `fontFrom` – fonts for the main, sub, date, and from lines individually. These override `font` when provided.
 
 `color` only affects the overlay background, whereas `textColor` and `outlineColor` control the message text and its outline.
 
@@ -40,6 +41,10 @@ index.html?main=We%E2%80%99re%20expecting&font=Playfair+Display
 
 ```
 index.html?main=It%27s%20a%20Boy%21&photo=https%3A%2F%2Fexample.com%2Fbaby.jpg&from=Love%2C%20Alice%20and%20Bob&color=coral
+```
+
+```
+index.html?main=Congrats&sub=Party%20Time&fontMain=Playfair+Display&fontSub=Indie+Flower
 ```
 
 ```
