@@ -577,19 +577,10 @@
           `${iconSize}px`,
         );
 
-        slotData.forEach((slot) => {
-          const div = document.createElement("div");
-          div.style.position = "absolute";
-          div.style.left = slot.xPct + "%";
-          div.style.top = slot.yPct + "%";
-          div.style.width = slot.wPct + "%";
-          div.style.height = slot.hPct + "%";
-          const img = document.createElement("img");
-          img.src = icons[Math.floor(Math.random() * icons.length)];
-          img.className = "slot-icon";
-          div.appendChild(img);
-          document.querySelector(".slot-machine-container").appendChild(div);
-        });
+        // The reels are already defined in the markup. This old block added
+        // a second set of static icons on top of them, leaving "stuck" hearts
+        // visible even while the reels spin. Removing these extra elements keeps
+        // only the dynamic reel contents.
 
         function getRandomIcon() {
           return icons[Math.floor(Math.random() * icons.length)];
