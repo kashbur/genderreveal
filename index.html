@@ -375,51 +375,15 @@
     <div class="aspect-container">
       <div class="slot-machine-container">
         <div class="slot-machine blur-background" id="slotMachine"></div>
-        <div id="reel1" class="reel blur-background">
-          <div class="reel-inner">
-            <img class="slot-icon" src="img/blue heart.png" alt="Blue Heart" />
-          </div>
-        </div>
-        <div id="reel2" class="reel blur-background">
-          <div class="reel-inner">
-            <img class="slot-icon" src="img/pink heart.png" alt="Pink Heart" />
-          </div>
-        </div>
-        <div id="reel3" class="reel blur-background">
-          <div class="reel-inner">
-            <img class="slot-icon" src="img/blue heart.png" alt="Blue Heart" />
-          </div>
-        </div>
-        <div id="reel4" class="reel blur-background">
-          <div class="reel-inner">
-            <img class="slot-icon" src="img/pink heart.png" alt="Pink Heart" />
-          </div>
-        </div>
-        <div id="reel5" class="reel blur-background">
-          <div class="reel-inner">
-            <img class="slot-icon" src="img/blue heart.png" alt="Blue Heart" />
-          </div>
-        </div>
-        <div id="reel6" class="reel blur-background">
-          <div class="reel-inner">
-            <img class="slot-icon" src="img/pink heart.png" alt="Pink Heart" />
-          </div>
-        </div>
-        <div id="reel7" class="reel blur-background">
-          <div class="reel-inner">
-            <img class="slot-icon" src="img/blue heart.png" alt="Blue Heart" />
-          </div>
-        </div>
-        <div id="reel8" class="reel blur-background">
-          <div class="reel-inner">
-            <img class="slot-icon" src="img/pink heart.png" alt="Pink Heart" />
-          </div>
-        </div>
-        <div id="reel9" class="reel blur-background">
-          <div class="reel-inner">
-            <img class="slot-icon" src="img/blue heart.png" alt="Blue Heart" />
-          </div>
-        </div>
+        <div id="reel1" class="reel blur-background"></div>
+        <div id="reel2" class="reel blur-background"></div>
+        <div id="reel3" class="reel blur-background"></div>
+        <div id="reel4" class="reel blur-background"></div>
+        <div id="reel5" class="reel blur-background"></div>
+        <div id="reel6" class="reel blur-background"></div>
+        <div id="reel7" class="reel blur-background"></div>
+        <div id="reel8" class="reel blur-background"></div>
+        <div id="reel9" class="reel blur-background"></div>
         <div class="spin-button blur-background" id="spinButton">
           <img src="img/tap to spin.png" alt="Spin" />
         </div>
@@ -624,6 +588,9 @@
             reel.style.height = `${slot.hPct}%`;
           }
         });
+        // Populate reels with spinning strips immediately so the static
+        // placeholder icons in the HTML don't remain visible on load
+        reels.forEach((r) => createReelStrip(r));
         const introOverlay = document.getElementById("introOverlay");
         const introLinesDiv = document.getElementById("introLines");
         const introColorOverlay = introOverlay.querySelector(".color-overlay");
