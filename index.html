@@ -540,12 +540,20 @@
             { row: 3, col: 3, xPct: 63.25, yPct: 59.46, wPct: 16.69, hPct: 7.08 },
           ];
 
-        const icons = ["img/blue%20heart.png", "img/pink%20heart.png"];
+        const heartIcons = ["img/blue%20heart.png", "img/pink%20heart.png"];
+        const babyIcons = [
+          "img/bluebottle.png",
+          "img/blueonesie.png",
+          "img/pacifier.png",
+          "img/pinkbottle.png",
+          "img/pinkonesie.png",
+          "img/stroller.png",
+        ];
 
         const container = document.querySelector(".slot-machine-container");
         const minHeightPct = Math.min(...slotData.map((s) => s.hPct));
-        // Increase icon size so the initial "boy or girl" images nearly fill
-        // their slots. Using the minimum slot height ensures the icons fit on
+        // Increase icon size so the initial icons nearly fill their slots.
+        // Using the minimum slot height ensures the icons fit on
         // all reels while taking up most of the available space.
         const iconSize = (container.clientHeight * minHeightPct) / 100;
         document.documentElement.style.setProperty(
@@ -558,8 +566,9 @@
         // visible even while the reels spin. Removing these extra elements keeps
         // only the dynamic reel contents.
 
-        function getRandomIcon() {
-          return icons[Math.floor(Math.random() * icons.length)];
+        function getRandomIcon(row) {
+          const pool = row === 2 ? heartIcons : babyIcons;
+          return pool[Math.floor(Math.random() * pool.length)];
         }
 
         function createSingleIcon(icon) {
@@ -573,14 +582,14 @@
           return { wrapper, img };
         }
 
-        function createReelStrip() {
+        function createReelStrip(row) {
           const strip = document.createElement("div");
           strip.className = "reel-strip";
           for (let i = 0; i < 10; i++) {
             const item = document.createElement("div");
             item.className = "reel-item";
             const img = document.createElement("img");
-            img.src = getRandomIcon();
+            img.src = getRandomIcon(row);
             img.alt = "Slot Icon";
             img.className = "slot-icon";
             item.appendChild(img);
@@ -590,13 +599,16 @@
         }
 
         let spinCount = 0;
-        let currentSymbols = Array.from({ length: slotData.length }, () =>
-          getRandomIcon()
+        let currentSymbols = Array.from({ length: slotData.length }, (_, i) =>
+          getRandomIcon(slotData[i].row)
         );
-                  // Set the middle row to display "boy or girl" before the first spin
-        currentSymbols[3] = "img/boy.png";
-        currentSymbols[4] = "img/or.png";
-        currentSymbols[5] = "img/girl.png";
+        // Override with specific icons for the initial layout
+        currentSymbols[0] = "img/bluebottle.png";
+        currentSymbols[1] = "img/blueonesie.png";
+        currentSymbols[2] = "img/pacifier.png";
+        currentSymbols[6] = "img/pinkbottle.png";
+        currentSymbols[7] = "img/pinkonesie.png";
+        currentSymbols[8] = "img/stroller.png";
         const slotMachine = document.getElementById("slotMachine");
         const spinButton = document.getElementById("spinButton");
         const reels = slotData.map((_, i) => document.getElementById(`reel${i + 1}`));
@@ -610,7 +622,7 @@
           }
         });
         // Build reel DOM structure once
-        const reelStrips = reels.map(() => createReelStrip());
+        const reelStrips = reels.map((_, i) => createReelStrip(slotData[i].row));
         reels.forEach((reel, i) => {
           const { wrapper, img } = createSingleIcon(currentSymbols[i]);
           const strip = reelStrips[i];
@@ -776,18 +788,18 @@
           const spinDuration = 1000;
           const delays = reels.map((_, i) => i * 300);
           if (spinCount === 4) {
-            const pinkHeart = icons[1];
+            const pinkHeart = heartIcons[1];
             reels.forEach((reel, i) => {
               const cb =
                 i === reels.length - 1 ? () => setTimeout(showReveal, 500) : null;
-              spinReel(reel, delays[i], spinDuration, pinkHeart, cb);
+              spinReel(reel, delays[i], spinDuration, pinkHeart, cb, slotData[i].row);
             });
             currentSymbols = Array(reels.length).fill(pinkHeart);
 
           } else {
             generateRandomNonMatchingSymbols();
             reels.forEach((reel, i) => {
-              spinReel(reel, delays[i], spinDuration, currentSymbols[i]);
+              spinReel(reel, delays[i], spinDuration, currentSymbols[i], null, slotData[i].row);
             });
           }
           const pointerDelay =
@@ -810,19 +822,19 @@
             return false;
           }
           do {
-            currentSymbols = Array.from({ length: reels.length }, () =>
-              getRandomIcon()
+            currentSymbols = Array.from({ length: reels.length }, (_, i) =>
+              getRandomIcon(slotData[i].row)
             );
           } while (
             currentSymbols.every((s) => s === currentSymbols[0]) ||
             (spinCount < 4 && hasMatchingRow(currentSymbols))
           );
         }
-        function spinReel(reel, delay, duration, finalIcon, callback) {
+        function spinReel(reel, delay, duration, finalIcon, callback, row) {
           setTimeout(() => {
             const strip = reel.strip;
             Array.from(strip.querySelectorAll("img")).forEach((img) => {
-              img.src = getRandomIcon();
+              img.src = getRandomIcon(row);
             });
             reel.finalWrapper.style.display = "none";
             strip.style.display = "flex";
@@ -830,7 +842,7 @@
             setTimeout(() => {
               strip.classList.remove("spinning");
               strip.style.display = "none";
-              reel.finalImg.src = finalIcon || getRandomIcon();
+              reel.finalImg.src = finalIcon || getRandomIcon(row);
               reel.finalWrapper.style.display = "flex";
               if (callback) callback();
             }, duration);
