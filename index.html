@@ -602,12 +602,13 @@
           getRandomIcon(slotData[i].row)
         );
         // Override with specific icons for the initial layout
-        currentSymbols[0] = "img/bib.png";
-        currentSymbols[1] = "img/bluebottle1.png";
-        currentSymbols[2] = "img/onesie1.png";
-        currentSymbols[6] = "img/pacifier1.png";
-        currentSymbols[7] = "img/stroller1.png";
-        currentSymbols[8] = "img/bib.png";
+        // Use the new baby icon set so rows 1 and 3 display images 5–9
+        currentSymbols[0] = "img/5.png";
+        currentSymbols[1] = "img/6.png";
+        currentSymbols[2] = "img/7.png";
+        currentSymbols[6] = "img/8.png";
+        currentSymbols[7] = "img/9.png";
+        currentSymbols[8] = "img/5.png";
         const slotMachine = document.getElementById("slotMachine");
         const spinButton = document.getElementById("spinButton");
         const reels = slotData.map((_, i) => document.getElementById(`reel${i + 1}`));
