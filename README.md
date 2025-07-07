@@ -22,6 +22,7 @@ xdg-open index.html        # Linux
 - `photo` – URL to an image shown as a circular avatar
 - `from` – a closing signature line
 - `color` – overlay color when the message appears. Allowed values: `beige` (default), `pink`, `blue`, `yellow`, `green`, `purple`, `gold`, `white`, `none`. You can also supply any valid hex or CSS color value for a custom overlay.
+- `finalHeart` – heart icon used for the final winning spin. Use `0` or `blue` for a blue heart, `1` or `pink` for a pink heart (defaults to pink).
 - `textColor` – color for the message text (any valid CSS color value)
 - `outlineColor` – color for the outline around the message text
 - `font` – Google Fonts family name to use for all text (e.g. `font=Playfair+Display`)
