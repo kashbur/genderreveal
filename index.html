@@ -544,7 +544,10 @@
 
         const container = document.querySelector(".slot-machine-container");
         const minHeightPct = Math.min(...slotData.map((s) => s.hPct));
-        const iconSize = (container.clientHeight * minHeightPct * 0.85) / 100;
+        // Increase icon size so the initial "boy or girl" images nearly fill
+        // their slots. Using the minimum slot height ensures the icons fit on
+        // all reels while taking up most of the available space.
+        const iconSize = (container.clientHeight * minHeightPct) / 100;
         document.documentElement.style.setProperty(
           "--icon-size",
           `${iconSize}px`,
