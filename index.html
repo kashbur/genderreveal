@@ -110,6 +110,8 @@
       .reel-strip {
         display: flex;
         flex-direction: column;
+        will-change: transform;
+        transform: translateZ(0);
       }
       .reel-item {
         height: 100%;
@@ -557,12 +559,18 @@
           return icons[Math.floor(Math.random() * icons.length)];
         }
 
-        function createSingleIcon(reel, icon) {
-          reel.innerHTML = `<div class="reel-inner"><img class="slot-icon" src="${icon}" alt="Slot Icon" /></div>`;
+        function createSingleIcon(icon) {
+          const wrapper = document.createElement("div");
+          wrapper.className = "reel-inner";
+          const img = document.createElement("img");
+          img.src = icon;
+          img.alt = "Slot Icon";
+          img.className = "slot-icon";
+          wrapper.appendChild(img);
+          return { wrapper, img };
         }
 
-        function createReelStrip(reel) {
-          reel.innerHTML = "";
+        function createReelStrip() {
           const strip = document.createElement("div");
           strip.className = "reel-strip";
           for (let i = 0; i < 10; i++) {
@@ -575,7 +583,6 @@
             item.appendChild(img);
             strip.appendChild(item);
           }
-          reel.appendChild(strip);
           return strip;
         }
 
@@ -595,9 +602,19 @@
             reel.style.height = `${slot.hPct}%`;
           }
         });
-        // Populate reels with spinning strips immediately so the static
-        // placeholder icons in the HTML don't remain visible on load
-        reels.forEach((r) => createReelStrip(r));
+        // Build reel DOM structure once
+        const reelStrips = reels.map(() => createReelStrip());
+        reels.forEach((reel, i) => {
+          const { wrapper, img } = createSingleIcon(currentSymbols[i]);
+          const strip = reelStrips[i];
+          strip.style.display = "none";
+          reel.innerHTML = "";
+          reel.appendChild(strip);
+          reel.appendChild(wrapper);
+          reel.strip = strip;
+          reel.finalWrapper = wrapper;
+          reel.finalImg = img;
+        });
         const introOverlay = document.getElementById("introOverlay");
         const introLinesDiv = document.getElementById("introLines");
         const introColorOverlay = introOverlay.querySelector(".color-overlay");
@@ -796,12 +813,18 @@
         }
         function spinReel(reel, delay, duration, finalIcon, callback) {
           setTimeout(() => {
-            const strip = createReelStrip(reel);
+            const strip = reel.strip;
+            Array.from(strip.querySelectorAll("img")).forEach((img) => {
+              img.src = getRandomIcon();
+            });
+            reel.finalWrapper.style.display = "none";
+            strip.style.display = "flex";
             strip.classList.add("spinning");
             setTimeout(() => {
               strip.classList.remove("spinning");
-              reel.innerHTML = "";
-              createSingleIcon(reel, finalIcon || getRandomIcon());
+              strip.style.display = "none";
+              reel.finalImg.src = finalIcon || getRandomIcon();
+              reel.finalWrapper.style.display = "flex";
               if (callback) callback();
             }, duration);
           }, delay);
