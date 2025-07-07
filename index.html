@@ -646,6 +646,13 @@
         const params = getParams();
         const safeTextColor = sanitizeColor(params.textcolor, "#ffffff");
         const safeOutlineColor = sanitizeColor(params.outlinecolor, "#7e5e4f");
+        const finalHeartParam = params.finalheart;
+        const finalHeartIndex = /^(0|blue)$/i.test(finalHeartParam || "")
+          ? 0
+          : /^(1|pink)$/i.test(finalHeartParam || "")
+            ? 1
+            : 1;
+        const finalHeartIcon = heartIcons[finalHeartIndex];
         const audioContext = new (window.AudioContext ||
           window.webkitAudioContext)();
 
@@ -788,13 +795,12 @@
           const spinDuration = 1000;
           const delays = reels.map((_, i) => i * 300);
           if (spinCount === 4) {
-            const pinkHeart = heartIcons[1];
             reels.forEach((reel, i) => {
               const cb =
                 i === reels.length - 1 ? () => setTimeout(showReveal, 500) : null;
-              spinReel(reel, delays[i], spinDuration, pinkHeart, cb, slotData[i].row);
+              spinReel(reel, delays[i], spinDuration, finalHeartIcon, cb, slotData[i].row);
             });
-            currentSymbols = Array(reels.length).fill(pinkHeart);
+            currentSymbols = Array(reels.length).fill(finalHeartIcon);
 
           } else {
             generateRandomNonMatchingSymbols();
