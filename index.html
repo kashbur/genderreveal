@@ -647,14 +647,25 @@
           "instructionsOverlay",
         );
         const params = getParams();
-        const safeTextColor = sanitizeColor(params.textcolor, "#ffffff");
-        const safeOutlineColor = sanitizeColor(params.outlinecolor, "#7e5e4f");
         const finalHeartParam = params.finalheart;
         const finalHeartIndex = /^(0|blue)$/i.test(finalHeartParam || "")
           ? 0
           : /^(1|pink)$/i.test(finalHeartParam || "")
             ? 1
             : 1;
+
+        const hasNonHeartParams = Object.keys(params).some(
+          (k) => k.toLowerCase() !== "finalheart",
+        );
+        if (finalHeartIndex === 0 && !hasNonHeartParams) {
+          params.main = "IT’S A BOY!";
+          if (!params.textcolor) params.textcolor = "#ffffff";
+          if (!params.outlinecolor) params.outlinecolor = "#000000";
+          if (!params.color) params.color = "blue";
+        }
+
+        const safeTextColor = sanitizeColor(params.textcolor, "#ffffff");
+        const safeOutlineColor = sanitizeColor(params.outlinecolor, "#7e5e4f");
         const finalHeartIcon = heartIcons[finalHeartIndex];
         const audioContext = new (window.AudioContext ||
           window.webkitAudioContext)();
