@@ -31,6 +31,7 @@ xdg-open index.html        # Linux
 - `mainBold`, `subBold`, `dateBold`, `fromBold` – set to `1` or `true` to make a line bold, `0` or `false` for normal weight.
 - `mainItalic`, `subItalic`, `dateItalic`, `fromItalic` – set to `1` to italicize a line.
 - `mainCaps`, `subCaps`, `dateCaps`, `fromCaps` – set to `1` to force uppercase or `0` to disable the default uppercase styling.
+- `finalHeart` – choose the heart icon shown on the last spin. Use `blue`, `pink`, `0`, or `1` (where `0` is blue).
 
 `color` only affects the overlay background, whereas `textColor` and `outlineColor` control the message text and its outline.
 
@@ -58,6 +59,10 @@ index.html?main=We%27re%20expecting%21&sub=Baby%20Miller%20%233&date=Arriving%20
 
 ```
 index.html?main=Surprise!&mainTextColor=coral&mainOutlineColor=%23000000&sub=coming%20soon&subCaps=0&subItalic=1
+```
+
+```
+index.html?main=The%20Big%20Reveal&finalHeart=blue
 ```
 
 Open one of these URLs in your browser to see the customized reveal.
