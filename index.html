@@ -77,7 +77,7 @@
       }
       .reel {
         position: absolute;
-        background: rgba(255, 255, 255, 0.2);
+        background: transparent;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -105,7 +105,7 @@
         }
       }
       .reel-strip.spinning {
-        animation: slot-spin-down 0.6s linear infinite;
+        animation: slot-spin-down 0.6s cubic-bezier(.4, .15, .3, .95) infinite;
       }
       .reel-strip {
         display: flex;
@@ -115,6 +115,13 @@
         height: 100%;
         width: 100%;
         position: relative;
+      }
+      /* Give the strip and items explicit height so translateY animates */
+      .reel-strip {
+        height: calc(var(--icon-size) * 10);
+      }
+      .reel-item {
+        height: var(--icon-size);
       }
       /*
       #reel1 {
