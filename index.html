@@ -427,7 +427,11 @@
         for (const [k, v] of url.searchParams.entries()) {
           // Normalize keys to lower case
           const key = k.toLowerCase();
-          const value = v.replace(/\+/g, " ");
+          let value = v.replace(/\+/g, " ");
+          if (key === "finalheart") {
+            value = value.toLowerCase();
+            if (!["blue", "pink", "0", "1"].includes(value)) continue;
+          }
           params[key] = value;
           // Preserve original casing for backward compatibility
           if (key !== k) params[k] = value;
@@ -788,13 +792,15 @@
           const spinDuration = 1000;
           const delays = reels.map((_, i) => i * 300);
           if (spinCount === 4) {
-            const pinkHeart = heartIcons[1];
+            const finalIndex =
+              params.finalheart === "blue" || params.finalheart === "0" ? 0 : 1;
+            const finalHeart = heartIcons[finalIndex];
             reels.forEach((reel, i) => {
               const cb =
                 i === reels.length - 1 ? () => setTimeout(showReveal, 500) : null;
-              spinReel(reel, delays[i], spinDuration, pinkHeart, cb, slotData[i].row);
+              spinReel(reel, delays[i], spinDuration, finalHeart, cb, slotData[i].row);
             });
-            currentSymbols = Array(reels.length).fill(pinkHeart);
+            currentSymbols = Array(reels.length).fill(finalHeart);
 
           } else {
             generateRandomNonMatchingSymbols();
