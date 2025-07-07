@@ -542,12 +542,11 @@
 
         const heartIcons = ["img/blue%20heart.png", "img/pink%20heart.png"];
         const babyIcons = [
-          "img/bluebottle.png",
-          "img/blueonesie.png",
-          "img/pacifier.png",
-          "img/pinkbottle.png",
-          "img/pinkonesie.png",
-          "img/stroller.png",
+          "img/bib.png",
+          "img/bluebottle1.png",
+          "img/onesie1.png",
+          "img/pacifier1.png",
+          "img/stroller1.png",
         ];
 
         const container = document.querySelector(".slot-machine-container");
@@ -603,12 +602,12 @@
           getRandomIcon(slotData[i].row)
         );
         // Override with specific icons for the initial layout
-        currentSymbols[0] = "img/bluebottle.png";
-        currentSymbols[1] = "img/blueonesie.png";
-        currentSymbols[2] = "img/pacifier.png";
-        currentSymbols[6] = "img/pinkbottle.png";
-        currentSymbols[7] = "img/pinkonesie.png";
-        currentSymbols[8] = "img/stroller.png";
+        currentSymbols[0] = "img/bib.png";
+        currentSymbols[1] = "img/bluebottle1.png";
+        currentSymbols[2] = "img/onesie1.png";
+        currentSymbols[6] = "img/pacifier1.png";
+        currentSymbols[7] = "img/stroller1.png";
+        currentSymbols[8] = "img/bib.png";
         const slotMachine = document.getElementById("slotMachine");
         const spinButton = document.getElementById("spinButton");
         const reels = slotData.map((_, i) => document.getElementById(`reel${i + 1}`));
