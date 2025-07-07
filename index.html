@@ -590,6 +590,10 @@
         let currentSymbols = Array.from({ length: slotData.length }, () =>
           getRandomIcon()
         );
+                  // Set the middle row to display "boy or girl" before the first spin
+        currentSymbols[3] = "img/boy.png";
+        currentSymbols[4] = "img/or.png";
+        currentSymbols[5] = "img/girl.png";
         const slotMachine = document.getElementById("slotMachine");
         const spinButton = document.getElementById("spinButton");
         const reels = slotData.map((_, i) => document.getElementById(`reel${i + 1}`));
