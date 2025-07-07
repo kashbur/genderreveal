@@ -75,6 +75,9 @@
       .blur-background {
         filter: blur(8px);
       }
+      .spin-button.blur-background {
+        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.18)) blur(8px);
+      }
       .reel {
         position: absolute;
         background: transparent;
@@ -384,15 +387,15 @@
     <div class="aspect-container">
       <div class="slot-machine-container">
         <div class="slot-machine blur-background" id="slotMachine"></div>
-        <div id="reel1" class="reel"></div>
-        <div id="reel2" class="reel"></div>
-        <div id="reel3" class="reel"></div>
-        <div id="reel4" class="reel"></div>
-        <div id="reel5" class="reel"></div>
-        <div id="reel6" class="reel"></div>
-        <div id="reel7" class="reel"></div>
-        <div id="reel8" class="reel"></div>
-        <div id="reel9" class="reel"></div>
+        <div id="reel1" class="reel blur-background"></div>
+        <div id="reel2" class="reel blur-background"></div>
+        <div id="reel3" class="reel blur-background"></div>
+        <div id="reel4" class="reel blur-background"></div>
+        <div id="reel5" class="reel blur-background"></div>
+        <div id="reel6" class="reel blur-background"></div>
+        <div id="reel7" class="reel blur-background"></div>
+        <div id="reel8" class="reel blur-background"></div>
+        <div id="reel9" class="reel blur-background"></div>
         <div class="spin-button blur-background" id="spinButton">
           <img src="img/button.png" alt="Spin" />
         </div>
