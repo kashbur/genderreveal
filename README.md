@@ -16,12 +16,12 @@ xdg-open index.html        # Linux
 
 `index.html` supports several query parameters so you can customize the reveal text and appearance. Parameters are optional and can be combined:
 
-- `main` – main headline (default: "We are expecting!")
+- `main` – main headline (default: "We are expecting!" or "IT’S A GIRL!" when pink hearts are chosen)
 - `sub` – secondary line of text
 - `date` – additional date or detail line
 - `photo` – URL to an image shown as a circular avatar
 - `from` – a closing signature line
-- `color` – overlay color when the message appears. Allowed values: `beige` (default), `pink`, `blue`, `yellow`, `green`, `purple`, `gold`, `white`, `none`. You can also supply any valid hex or CSS color value for a custom overlay.
+- `color` – overlay color when the message appears. Allowed values: `beige` (default), `pink`, `blue`, `yellow`, `green`, `purple`, `gold`, `white`, `none`. If omitted and pink hearts are selected, the overlay defaults to pink. Any valid hex or CSS color value is also accepted.
 - `finalHeart` – heart icon used for the final winning spin. Use `0` or `blue` for a blue heart, `1` or `pink` for a pink heart (defaults to pink).
 - `textColor` – color for the message text (any valid CSS color value)
 - `outlineColor` – color for the outline around the message text

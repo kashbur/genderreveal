@@ -464,7 +464,7 @@
         };
       }
 
-      function getRevealLinesFromParams(params) {
+      function getRevealLinesFromParams(params, finalHeartIndex) {
         // Defaults
         const lines = [];
         let photo = params.photo ? decodeURIComponent(params.photo) : "";
@@ -472,7 +472,9 @@
         if (photo && !/^(https?:|data:image\/)/i.test(photo)) {
           photo = "";
         }
-        const main = params.main || "We are expecting!";
+        const main =
+          params.main ||
+          (finalHeartIndex === 1 ? "IT’S A GIRL!" : "We are expecting!");
         const sub = params.sub || "";
         const date = params.date || "";
         const from = params.from || "";
@@ -504,7 +506,7 @@
           });
         return lines;
       }
-      function getColorOverlay(params) {
+      function getColorOverlay(params, finalHeartIndex) {
         // Pink, blue, yellow, green, purple, gold, white, none
         const input = params.color ? params.color.trim() : "";
         // Allow custom CSS colors
@@ -513,7 +515,7 @@
         test.color = input;
         if (test.color) return input;
 
-        const color = (input || "beige").toLowerCase();
+        const color = (input || (finalHeartIndex === 1 ? "pink" : "beige")).toLowerCase();
         const overlays = {
           beige: "#f3ddbb",
           pink: "#fcc0c5",
@@ -647,14 +649,15 @@
           "instructionsOverlay",
         );
         const params = getParams();
-        const safeTextColor = sanitizeColor(params.textcolor, "#ffffff");
-        const safeOutlineColor = sanitizeColor(params.outlinecolor, "#7e5e4f");
         const finalHeartParam = params.finalheart;
         const finalHeartIndex = /^(0|blue)$/i.test(finalHeartParam || "")
           ? 0
           : /^(1|pink)$/i.test(finalHeartParam || "")
             ? 1
             : 1;
+        const safeTextColor = sanitizeColor(params.textcolor, "#ffffff");
+        const defaultOutline = finalHeartIndex === 1 ? "#000000" : "#7e5e4f";
+        const safeOutlineColor = sanitizeColor(params.outlinecolor, defaultOutline);
         const finalHeartIcon = heartIcons[finalHeartIndex];
         const audioContext = new (window.AudioContext ||
           window.webkitAudioContext)();
@@ -714,8 +717,8 @@
 
 
         // Set overlay color on reveal
-        colorOverlay.style.background = getColorOverlay(params);
-        introColorOverlay.style.background = getColorOverlay(params);
+        colorOverlay.style.background = getColorOverlay(params, finalHeartIndex);
+        introColorOverlay.style.background = getColorOverlay(params, finalHeartIndex);
 
         // Hide instructions overlay
         function hideInstructionsOverlay() {
@@ -897,7 +900,7 @@
 
         // ------------- REVEAL LOGIC -----------------
         function showReveal() {
-          const allLines = getRevealLinesFromParams(params);
+          const allLines = getRevealLinesFromParams(params, finalHeartIndex);
           const mainLine = allLines.find((l) => l.type === "main");
           const otherLines = allLines.filter((l) => l.type !== "main");
           let confettiShown = false;
