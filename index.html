@@ -806,24 +806,51 @@
         function handleSpin() {
           spinCount++;
           spinButton.style.pointerEvents = "none";
-          const spinDuration = 1000;
-          const durations = reels.map((_, i) => spinDuration + i * 300);
+
+          const baseDuration = 1000;
+          const columnDelay = 300;
+          const columns = [
+            [0, 3, 6], // first column
+            [1, 4, 7], // second column
+            [2, 5, 8], // third column
+          ];
+
           if (spinCount === 4) {
-            reels.forEach((reel, i) => {
-              const cb =
-                i === reels.length - 1 ? () => setTimeout(showReveal, 500) : null;
-              spinReel(reel, 0, durations[i], finalHeartIcon, cb, slotData[i].row);
+            columns.forEach((indices, col) => {
+              indices.forEach((i, idx) => {
+                const cb =
+                  i === 8 ? () => setTimeout(showReveal, 500) : null;
+                spinReel(
+                  reels[i],
+                  col * columnDelay,
+                  baseDuration,
+                  finalHeartIcon,
+                  cb,
+                  slotData[i].row,
+                );
+              });
             });
             currentSymbols = Array(reels.length).fill(finalHeartIcon);
-
           } else {
             generateRandomNonMatchingSymbols();
-            reels.forEach((reel, i) => {
-              spinReel(reel, 0, durations[i], currentSymbols[i], null, slotData[i].row);
+            columns.forEach((indices, col) => {
+              indices.forEach((i) => {
+                spinReel(
+                  reels[i],
+                  col * columnDelay,
+                  baseDuration,
+                  currentSymbols[i],
+                  null,
+                  slotData[i].row,
+                );
+              });
             });
           }
+
           const pointerDelay =
-            durations[durations.length - 1] + (spinCount === 4 ? 500 : 0);
+            baseDuration +
+            columnDelay * (columns.length - 1) +
+            (spinCount === 4 ? 500 : 0);
           setTimeout(() => {
             spinButton.style.pointerEvents = "auto";
           }, pointerDelay);
