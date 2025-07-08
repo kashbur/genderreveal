@@ -657,6 +657,13 @@
         const hasNonHeartParams = Object.keys(params).some(
           (k) => k.toLowerCase() !== "finalheart",
         );
+
+        // Default overlay color based on the final heart when no color is supplied
+        if (!params.color && finalHeartParam) {
+          if (/^(0|blue)$/i.test(finalHeartParam)) params.color = "blue";
+          else if (/^(1|pink)$/i.test(finalHeartParam)) params.color = "pink";
+        }
+
         if (finalHeartIndex === 0 && !hasNonHeartParams) {
           params.main = "IT’S A BOY!";
           if (!params.textcolor) params.textcolor = "#ffffff";
