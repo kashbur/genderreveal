@@ -807,23 +807,23 @@
           spinCount++;
           spinButton.style.pointerEvents = "none";
           const spinDuration = 1000;
-          const delays = reels.map((_, i) => i * 300);
+          const durations = reels.map((_, i) => spinDuration + i * 300);
           if (spinCount === 4) {
             reels.forEach((reel, i) => {
               const cb =
                 i === reels.length - 1 ? () => setTimeout(showReveal, 500) : null;
-              spinReel(reel, delays[i], spinDuration, finalHeartIcon, cb, slotData[i].row);
+              spinReel(reel, 0, durations[i], finalHeartIcon, cb, slotData[i].row);
             });
             currentSymbols = Array(reels.length).fill(finalHeartIcon);
 
           } else {
             generateRandomNonMatchingSymbols();
             reels.forEach((reel, i) => {
-              spinReel(reel, delays[i], spinDuration, currentSymbols[i], null, slotData[i].row);
+              spinReel(reel, 0, durations[i], currentSymbols[i], null, slotData[i].row);
             });
           }
           const pointerDelay =
-            delays[delays.length - 1] + spinDuration + (spinCount === 4 ? 500 : 0);
+            durations[durations.length - 1] + (spinCount === 4 ? 500 : 0);
           setTimeout(() => {
             spinButton.style.pointerEvents = "auto";
           }, pointerDelay);
