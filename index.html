@@ -816,17 +816,18 @@
 
           const baseDuration = 1000;
           const columnDelay = 300;
+          // Only spin the middle row (row 2)
           const columns = [
-            [0, 3, 6], // first column
-            [1, 4, 7], // second column
-            [2, 5, 8], // third column
+            [3], // first column middle row
+            [4], // second column middle row
+            [5], // third column middle row
           ];
 
           if (spinCount === 4) {
             columns.forEach((indices, col) => {
-              indices.forEach((i, idx) => {
+              indices.forEach((i) => {
                 const cb =
-                  i === 8 ? () => setTimeout(showReveal, 500) : null;
+                  i === 5 ? () => setTimeout(showReveal, 500) : null;
                 spinReel(
                   reels[i],
                   col * columnDelay,
@@ -837,7 +838,9 @@
                 );
               });
             });
-            currentSymbols = Array(reels.length).fill(finalHeartIcon);
+            [3, 4, 5].forEach((idx) => {
+              currentSymbols[idx] = finalHeartIcon;
+            });
           } else {
             generateRandomNonMatchingSymbols();
             columns.forEach((indices, col) => {
@@ -863,26 +866,16 @@
           }, pointerDelay);
         }
         function generateRandomNonMatchingSymbols() {
-          function hasMatchingRow(symbols) {
-            for (let r = 0; r < 3; r++) {
-              const i = r * 3;
-              if (
-                symbols[i] === symbols[i + 1] &&
-                symbols[i] === symbols[i + 2]
-              ) {
-                return true;
-              }
-            }
-            return false;
+          function allMiddleMatch(symbols) {
+            return (
+              symbols[3] === symbols[4] && symbols[3] === symbols[5]
+            );
           }
           do {
-            currentSymbols = Array.from({ length: reels.length }, (_, i) =>
-              getRandomIcon(slotData[i].row)
-            );
-          } while (
-            currentSymbols.every((s) => s === currentSymbols[0]) ||
-            (spinCount < 4 && hasMatchingRow(currentSymbols))
-          );
+            [3, 4, 5].forEach((idx) => {
+              currentSymbols[idx] = getRandomIcon(slotData[idx].row);
+            });
+          } while (spinCount < 4 && allMiddleMatch(currentSymbols));
         }
         function spinReel(reel, delay, duration, finalIcon, callback, row) {
           setTimeout(() => {
